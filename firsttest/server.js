@@ -4,6 +4,33 @@ var express = require('express'),
 	adminRouter = express.Router();
 
 
+
+// App.route equals express.Router();
+app.route('/login')
+					.get(function(req,res){
+						res.send('This is the LoginForm');
+					})
+					.post(function(req,res){
+						console.log('Processing Login');
+						res.send('processing Login!');
+					});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Middlewar to log all request Mehtods and URL of Route localhost:1337/admin/*
 adminRouter.use(function(req,res,next){
 	console.log(req.method, req.url);
 	next();
@@ -20,6 +47,21 @@ adminRouter.get('/users', function(req,res){
 // localhost:1337/admin/posts
 adminRouter.get('/posts', function(req,res){
 	res.send('Posts');
+});
+
+//middleware for parameter validation
+adminRouter.param('name', function(req,res,next,name){
+	console.log('Validation on '+name);
+
+	name=name+' valid';
+	req.name=name;
+	
+	next();
+});
+
+// Route with parameter :name => accessible through req.params.name
+adminRouter.get('/users/:name', function(req,res){
+	res.send('hello '+req.name+'!');
 });
 
 app.use('/admin',adminRouter);
