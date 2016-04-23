@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Razorbob/WEG_MEAN/issues"
   },
-  "homepage": "https://github.com/Razorbob/WEG_MEAN"
+  "homepage": "https://github.com/Razorbob/WEG_MEAN",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^4.4.13",
+    "passport": "^0.3.2"
+  }
 }
