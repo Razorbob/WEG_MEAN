@@ -1,8 +1,10 @@
 var express = require('express'),
 	app = express(),
 	path = require('path'),
-	adminRouter = express.Router();
+	adminRouter = express.Router(),
+	mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost/db');
 
 
 // App.route equals express.Router();
@@ -14,18 +16,6 @@ app.route('/login')
 						console.log('Processing Login');
 						res.send('processing Login!');
 					});
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,10 +42,12 @@ adminRouter.get('/posts', function(req,res){
 //middleware for parameter validation
 adminRouter.param('name', function(req,res,next,name){
 	console.log('Validation on '+name);
-
-	name=name+' valid';
-	req.name=name;
-	
+	var reg = new RegExp('^\\d+$');
+	if(reg.test(name)){
+		req.name="FALSE";
+	}else{
+		req.name="TRUE"
+	}
 	next();
 });
 
