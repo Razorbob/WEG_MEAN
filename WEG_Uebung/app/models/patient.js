@@ -26,10 +26,10 @@ UserSchema.pre('save', function(next){
 });
 
 //compare given pw to hashed in db
-UserSchema.methods.comparePassowrd= function(password){
+UserSchema.methods.comparePassword= function(password){
 	var user = this;
 	return bcrypt.compareSync(password,user.password);
 };
 
 //return model
-module.exports = mongoose.model('Patient', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

@@ -1,4 +1,4 @@
-var User 	= require('../models/patient'),
+var User 	= require('../models/Patient'),
  	jwt 	= require('jsonwebtoken'),
  	config 	= require('../../config');
 
@@ -83,7 +83,7 @@ module.exports = function(app, express) {
 			user.username = req.body.username;
 			user.password = req.body.password;
 
-			User.save(function(err){
+			user.save(function(err){
 				if(err) res.send(err);
 
 				//return a message

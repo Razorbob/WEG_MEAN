@@ -1,5 +1,5 @@
 module.exports = { 
 	'port' 		: process.env.PORT || 1337,
-	'database'	: 'mongodb://localhost/db',
+	'database'	: 'mongodb://localhost/wegdb',
 	'secret'	: 'supersecret'
 };
