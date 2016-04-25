@@ -10,18 +10,20 @@ module.exports = function(app, express) {
 	apiRouter.post('/authenticate', function(req, res) { 
 		console.log(req.body.username);
 		User.findOne({ 
-			username: req.body.username 
-		}).select('password').exec(function(err, user) { 
+			username: req.body.username
+		}).select('name username password').exec(function(err, user) { 
 			if (err) throw err; 
 			// no user with that username was found
 			if (!user) {
+				console.log('wrong User');
 				res.json({
-					success: flase,
+					success: false,
 					message: 'Authentication failed. User not found.'
 				});
 			} else if (user){
 				var validPassword = user.comparePassword(req.body.password);
 				if (!validPassword) {
+					console.log('wrong Password');
 					res.json({
 						success: false,
 						message: 'Authentication failed. Wrong password.'
@@ -29,8 +31,9 @@ module.exports = function(app, express) {
 				} else {
 					// if user is found and password is right
 					// create a token
-					var token = jwt.sign(user, superSecret, {
-						expiresInMinutes: 1440 // expires in 24 hours 
+					var token = jwt.sign({name: ''+user.name, username: ''+user.username},
+						superSecret, 
+						{ expiresInMinutes: 1440 // expires in 24 hours 
 					});
 
 					// return the information including token as JSON
@@ -50,7 +53,7 @@ module.exports = function(app, express) {
 		console.log('Somone accessed our app')
 		
 		// check header or url parameters or post parameters for token 
-		var token = req.body.token || req.param('token') || req.headers['x-access-token']; 
+		var token = req.body.token || req.params.token || req.headers['x-access-token']; 
 
 		//decode Token
 		if(token){
@@ -65,6 +68,7 @@ module.exports = function(app, express) {
 		}else{
 			//no token
 			//return 403 Forbidden
+			console.log("no Token provided");
 			return res.status(403).send({ success: false, message: 'No token provided'});
 		}
 	});
@@ -73,6 +77,12 @@ module.exports = function(app, express) {
 	apiRouter.get('/',function(req,res){
 		res.json({message: 'Hurray api Working!'});
 	});
+
+	// api endpoint to get user information 
+	apiRouter.get('/me', function(req, res) {
+		console.log(req.decoded);
+	 	res.send(req.decoded); 
+	}); 
 
 	//on Routes that end with /users
 	apiRouter.route('/users')
@@ -141,5 +151,6 @@ module.exports = function(app, express) {
 
 		});
 
+	
 	return apiRouter;
 };

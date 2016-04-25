@@ -21,6 +21,7 @@ angular.module('authService', [])
 				password: password
 			})
 			.success(function(data){
+				
 				AuthToken.setToken(data.token);
 				return data;
 			});
@@ -34,7 +35,7 @@ angular.module('authService', [])
 
 		// check if a user is logged in
 		// check if lokal Token exists
-		authFacotry.isLoggedIn = function(){
+		authFactory.isLoggedIn = function(){
 			if(AuthToken.getToken())
 				return true;
 			else
@@ -44,8 +45,9 @@ angular.module('authService', [])
 
 		// get the user info
 		authFactory.getUser = function(){
-			if(AuthToken.getToken())
-				return $http.get('/api/me');
+			if(AuthToken.getToken()){
+				return $http.get('/api/me', {cache: true});
+			}
 			else
 				return $q.reject({ message: 'User has no token.' }); 
 		};
@@ -87,7 +89,7 @@ angular.module('authService', [])
 	//  application configuration to integrate token into requests
 	//  ==================================================
 	
-	.factory('AuthInterceptor', function($q, AuthToken){
+	.factory('AuthInterceptor', function($q, $location, AuthToken){
 		// create Facotry Object
 		var interceptorFactory = {};
 
@@ -116,6 +118,4 @@ angular.module('authService', [])
 		};
 		// return interceptorFactory 
 		return interceptorFactory;
-
-
 	});

@@ -20,7 +20,7 @@ angular.module('userService', [])
 
 		//update User
 		userFactory.update = function(id, userData){
-			return $http.put('api/users/'+ id, userData);
+			return $http.put('/api/users/'+ id, userData);
 		};
 
 		//delete User

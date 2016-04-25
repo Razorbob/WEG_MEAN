@@ -1,11 +1,71 @@
 <!Doctype html>
-<html>
+<html lang="en">
   <head>
-  <meta charset="UTF-8">
-  <title>Patientendata</title>
+	  <meta charset="UTF-8">
+	  <title>Patientendata</title>
+
+	  <!-- FOR ANGULAR ROUTING -->
+	  <base href="/"/>
+
+	  <!-- CSS -->
+	  <!-- Bootstrap -->
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+	  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css"/>
+	  <link rel="stylesheet" href="assets/css/style.css"/>
+
+	  <!-- JS -->
+	  <!-- load angular and angular-route via CDN --> 
+	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
+
+	  
+
+	  <!-- CONTROLLERS -->
+	  <script src="app/controllers/mainCtrl.js"></script>
+	  <script src="app/controllers/userCtrl.js"></script>
+
+	  <!-- SERVICES -->
+	  <script src="app/services/authService.js"></script>
+	  <script src="app/services/userService.js"></script>
+
+	  <!-- main Angular app files -->
+	  <script src="app/app.routes.js"></script>
+	  <script src="app/app.js"></script>
+
   </head>
-  <body>
-    <h1>Hello World</h1>
+  <body ng-app="userApp" ng-controller="mainController as main"> 
+  	<div id="page">
+	    <div class="container-fluid">
+        	<div id="header" class="page-header"><h1>Patientenverwaltung</h1></div>
+        	<header>
+	        	<nav id="navi" class="" ng-if="main.loggedIn">
+	        		<ul class="nav nav-pills col-md-8">
+	        			<li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+	        			<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+	        			<li><a href="/patients"><span class="glyphicon glyphicon-file"></span> Patienten</a></li>
+	        		 </ul>
+	        		 <ul class="nav nav-pills col-md-3">
+	        		 	<li ng-if="!main.loggedIn"><a href="/login">Login</a></li> 
+	        		 	<li ng-if="main.loggedIn" ><a href="">Hello {{ main.user.name }}!</a></li>
+	        		 	<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
+	        		 </ul>
+	        	</nav>
+        	</header>	
+     		<br/>
+   			<div  id="contentContainer" class="col-md-12">
+        		<div id="LeftContentContainer" class="col-md-5">
+            		<p class="lead">Willkommen im Krankenhausinformationssystem</p>
+            		<img src="../../../assets/img/logo.png" alt="LOGO"/>
+        		</div>
+        		<div id="RightContentContainer" class="col-md-7">
+	               <main class="container">
+				    	<div ng-view></div>
+				   </main>
+	            </div>
+        	</div>
+        </div>
+    </div>
   </body>
 </html>
 
