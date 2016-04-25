@@ -22,6 +22,12 @@ angular.module('app.routes', ['ngRoute'])
  		controllerAs: 'user'
  	})
 
+ 	.when('/users/create', {
+ 		templateUrl : 'app/views/pages/users/single.html',
+ 		controller: 'userCreateController',
+ 		controllerAs: 'user'
+ 	})
+
  	//No Hashes in URL
  	$locationProvider.html5Mode(true).hashPrefix('*');
 
