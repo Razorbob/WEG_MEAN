@@ -133,7 +133,7 @@ module.exports = function(app, express) {
 				if(req.body.password) user.password = req.body.password;
 
 				//Save user
-				User.save(function(req,res){
+				user.save(function(err){
 					if(err) res.send(err);
 
 					res.json({message: 'User updated!'});
