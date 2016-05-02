@@ -12,7 +12,7 @@ var UserSchema = new Schema({
 
 
 
-// BEFORE SAVE Event
+// BEFORE SAVE Event => Middleware
 UserSchema.pre('save', function(next){
 	var user =this;
 	//hash password only if password has been changed or user is new

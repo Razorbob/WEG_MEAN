@@ -167,8 +167,8 @@ module.exports = function(app, express) {
 	 })
 	 // create new Patient
 	 .post(function(req,res){
-	 	
-	 	Patient p = new Patient();
+
+	 	var p = new Patient();
 	 	p.vorname = req.body.vorname;
 	 	p.nachname = req.body.nachname;
 	 	p.svn = req.body.svn;
@@ -190,15 +190,39 @@ module.exports = function(app, express) {
 	apiRouter.route("/patient/:patient_id")
 	  // get Patient
 	 .get(function(req,res){
-
+	 	Patient.findById(req.params.patient_id, function(err, p){
+	 		if(err) res.send(err);
+	 		res.json(p);
+	 	});
 	 })
 	 // Update Patient
 	 .put(function(req,res){
+	 	Patient.findById(req.params.patient_id, function(err, p){
+	 		if(err) res.send(err);
 
+	 		if(req.body.vorname) p.vorname = req.body.vorname;
+		 	if(req.body.nachname) p.nachname = req.body.nachname;
+		 	if(req.body.svn) p.svn = req.body.svn;
+		 	if(req.body.bdd) p.blutDruckD = req.body.bdd;
+		 	if(req.body.bds) p.blutDruckS = req.body.bds;
+		 	if(req.body.puls) p.puls = req.body.puls;
+		 	if(req.body.email) p.email = req.body.email;
+		 	if(req.body.gebdatum) p.gebdatum = req.body.gebdatum;
+		 	if(req.body.geschlecht) p.geschlecht = req.body.geschlecht; 
+
+			patient.save(function(err){
+				if(err) res.send(err);
+
+				res.json({message: 'Patient updated!'});
+			});	
+	 	});
 	 })
 	 // Delete Patient
 	 .delete(function(req,res){
-
+ 		Patient.remove({_id: req.params.user_id}, function(err, p){
+ 			if(err) res.send(err);
+ 			res.json({message: 'Patient deleted'});
+ 		});
 	 });
 	
 	return apiRouter;
