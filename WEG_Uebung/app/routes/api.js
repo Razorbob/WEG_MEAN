@@ -1,4 +1,5 @@
-var User 	= require('../models/Patient'),
+var User 	= require('../models/User'),
+	Patient = require('../models/Patient')
  	jwt 	= require('jsonwebtoken'),
  	config 	= require('../../config');
 
@@ -151,6 +152,54 @@ module.exports = function(app, express) {
 
 		});
 
+// =============================================
+// 				PATIENT ROUTES
+// =============================================
+
+//	/api/patients
+	apiRouter.route("/patient")
+	 // display List Patients
+	 .get(function(req,res){
+	 	Patient.find(function(err, patients){
+	 		if(err) res.send(err);
+	 		res.json(patients);
+	 	});
+	 })
+	 // create new Patient
+	 .post(function(req,res){
+	 	
+	 	Patient p = new Patient();
+	 	p.vorname = req.body.vorname;
+	 	p.nachname = req.body.nachname;
+	 	p.svn = req.body.svn;
+	 	p.blutDruckD = req.body.bdd;
+	 	p.blutDruckS = req.body.bds;
+	 	p.puls = req.body.puls;
+	 	p.email = req.body.email;
+	 	p.gebdatum = req.body.gebdatum;
+	 	p.geschlecht = req.body.geschlecht;
+
+	 	p.save(function(err){
+	 		if(err) res.send(err);
+	 		res.json({message: 'Patient saved!'});
+	 	});
+
+	 });
+
+//	/api/patients/:patient_id
+	apiRouter.route("/patient/:patient_id")
+	  // get Patient
+	 .get(function(req,res){
+
+	 })
+	 // Update Patient
+	 .put(function(req,res){
+
+	 })
+	 // Delete Patient
+	 .delete(function(req,res){
+
+	 });
 	
 	return apiRouter;
 };
